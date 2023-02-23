@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ReviewsEntity } from 'src/reviews/reviews.entity';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class LibEntity {
@@ -25,4 +26,7 @@ export class LibEntity {
     default: '',
   })
   movieYear: string;
+
+  @OneToOne(() => ReviewsEntity, (user: ReviewsEntity) => user.movie)
+  public review: ReviewsEntity;
 }

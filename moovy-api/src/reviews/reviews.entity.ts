@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { LibEntity } from 'src/library/library.entity';
+import {
+  Column,
+  Entity,
+  OneToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class ReviewsEntity {
@@ -13,8 +20,10 @@ export class ReviewsEntity {
   })
   review: string;
 
-  @Column({
-    nullable: false,
+  @OneToOne(() => LibEntity, {
+    eager: true,
+    cascade: true,
   })
-  movieId: number;
+  @JoinColumn()
+  public movie: LibEntity;
 }

@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { LibModule } from './library/library.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
       entities: [__dirname + '/**/*.entity{.js,.ts}'],
     }),
+    LibModule,
+    ReviewsModule,
   ],
   controllers: [],
   providers: [],

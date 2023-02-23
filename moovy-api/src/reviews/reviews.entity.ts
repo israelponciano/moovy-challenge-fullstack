@@ -20,10 +20,8 @@ export class ReviewsEntity {
   })
   review: string;
 
-  @OneToOne(() => LibEntity, {
-    eager: true,
-    cascade: true,
+  @Column({
+    nullable: false,
   })
-  @JoinColumn()
-  public movie: LibEntity;
+  movieImdbId: string;
 }

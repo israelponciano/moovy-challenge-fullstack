@@ -1,5 +1,6 @@
 export class NewLibDTO {
   movieName: string;
   moviePoster: string;
-  movieYear: string;
+  movieYear: number;
+  movieImdbId: string;
 }

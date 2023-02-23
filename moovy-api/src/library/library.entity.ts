@@ -25,8 +25,10 @@ export class LibEntity {
     nullable: false,
     default: '',
   })
-  movieYear: string;
+  movieYear: number;
 
-  @OneToOne(() => ReviewsEntity, (user: ReviewsEntity) => user.movie)
-  public review: ReviewsEntity;
+  @Column({
+    nullable: false,
+  })
+  movieImdbId: string;
 }

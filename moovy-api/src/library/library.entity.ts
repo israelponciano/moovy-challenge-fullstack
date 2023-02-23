@@ -1,5 +1,4 @@
-import { ReviewsEntity } from 'src/reviews/reviews.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class LibEntity {
@@ -25,10 +24,10 @@ export class LibEntity {
     nullable: false,
     default: '',
   })
-  movieYear: number;
+  movieYear: string;
 
   @Column({
     nullable: false,
   })
-  movieImdbId: string;
+  imdbId: string;
 }

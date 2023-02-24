@@ -4,7 +4,7 @@ import fetchAPIAllData from '../api/FetchAPI';
 
 export default function SearchBar() {
   const { setMovies } = useContext(MoovyContext)
-
+  
   return (
     <div>
       <input

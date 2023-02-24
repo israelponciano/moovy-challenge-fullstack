@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 import { MoovyServices } from "../services/MoovyServices"
-import { ApiMovie } from "../../interfaces/Interfaces";
+import { ApiMovie, ApiMovieDelete } from "../../interfaces/Interfaces";
 
 export const useMoovy = () => {
-  const [movies, setMovies] = useState<Array<ApiMovie>>();
+  const [movies, setMovies] = useState<Array<ApiMovieDelete>>();
 
   const getAllMovies = useCallback(async () => {
     const { data, status } = await MoovyServices.getAllMovies();
@@ -19,9 +19,15 @@ export const useMoovy = () => {
     if (status !== 201) throw new Error();
   }, []);
 
+  const deleteFavMovie = useCallback(async (id: string) => {
+    const { status } = await MoovyServices.deleteMovie(id);
+    if (status !== 200) throw new Error();
+  }, []);
+
   return {
     movies,
     getAllMovies,
     postNewMovie,
+    deleteFavMovie,
   }
 }

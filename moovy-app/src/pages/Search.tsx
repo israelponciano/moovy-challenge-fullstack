@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useMoovy } from "../api/hooks/UseMoovy";
 import Header from "../components/Header";
 import MovieCard from "../components/MovieCard";

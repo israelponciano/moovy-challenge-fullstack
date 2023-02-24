@@ -1,11 +1,16 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useMoovy } from "../api/hooks/UseMoovy";
 import Header from "../components/Header";
 import MovieCard from "../components/MovieCard";
-import { ApiMovie } from "../interfaces/Interfaces";
+import { ApiMovieDelete } from "../interfaces/Interfaces";
 
 export default function Library() {
-  const { movies, getAllMovies } =  useMoovy();
+  const { movies, getAllMovies, deleteFavMovie } =  useMoovy();
+
+  const removeFavorites = useCallback(async (id: string) => {
+    await deleteFavMovie(id);
+    await getAllMovies();
+  } ,[deleteFavMovie, getAllMovies])
 
   useEffect(() => {
     getAllMovies();
@@ -14,8 +19,10 @@ export default function Library() {
   return (
     <div>
       <Header />
+      <p> Minha Biblioteca </p>
+
       {
-        movies ? movies.map((e: ApiMovie) => (
+        movies?.length ? movies.map((e: ApiMovieDelete) => (
           <div key={ `${e.imdbId}` }>
             <MovieCard 
               Title={ e.movieName }
@@ -23,12 +30,18 @@ export default function Library() {
               Poster={ e.moviePoster }
               Year={ e.movieYear }
             />
+             <button
+              onClick={ () => removeFavorites(e.id) }
+            >
+              Remover
+            </button>
           </div>
         ))
         : (
-          <p>Você não tem nenhum filme Favorito por enquanto.</p>
+          <p>Nenhum filme Favorito por enquanto.</p>
         )
       }
+
     </div>
   )
 }

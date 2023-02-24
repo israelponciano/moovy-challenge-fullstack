@@ -4,3 +4,11 @@ export interface Movie {
   Year: string;
   imdbID: string;
 }
+
+export interface ApiMovie {
+  movieName: string;
+  moviePoster: string;
+  movieYear: string;
+  imdbId: string;
+}
+

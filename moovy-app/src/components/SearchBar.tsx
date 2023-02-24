@@ -1,6 +1,6 @@
 import { MoovyContext } from '../context/MoovyContext'
 import { useContext } from 'react';
-import fetchAPIAllData from '../api/FetchAPI';
+import fetchAPIAllData from '../fetch/FetchAPI';
 
 export default function SearchBar() {
   const { setMovies } = useContext(MoovyContext)

@@ -1,5 +1,10 @@
+import Header from "../components/Header";
+
 export default function Library() {
   return (
-    <div>Library</div>
+    <div>
+      <Header />
+      <p>Minha Biblioteca</p>
+    </div>
   )
 }

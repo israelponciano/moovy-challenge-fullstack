@@ -1,10 +1,11 @@
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext } from "react";
 import { useMoovy } from "../api/hooks/UseMoovy";
 import Header from "../components/Header";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 import { MoovyContext } from "../context/MoovyContext";
 import { Movie } from "../interfaces/Interfaces";
+import AudioRecorder from "../recorder/AudioRecorder";
 
 export default function Search() {
   const { movies } = useContext(MoovyContext);
@@ -48,6 +49,8 @@ export default function Search() {
           <p>Não achamos o filmes que você procura.</p>
         )
       }
+
+      <AudioRecorder />
 
     </div>
   )

@@ -18,7 +18,11 @@ export class ReviewsService {
     return this.reviewsRepository.find();
   }
 
-  remove(id: number) {
-    return this.reviewsRepository.delete(id);
+  remove(imdbId: string) {
+    return this.reviewsRepository.delete(imdbId);
+  }
+
+  findBy(imdbId: string) {
+    return this.reviewsRepository.findOneBy({ imdbId: imdbId });
   }
 }

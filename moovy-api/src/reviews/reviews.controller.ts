@@ -15,8 +15,13 @@ export class ReviewsController {
     return this.reviewsService.findAll();
   }
 
-  @Delete('del/:id')
-  remove(@Param('id') id: number) {
-    return this.reviewsService.remove(id);
+  @Delete('del/:imdbId')
+  remove(@Param('imdbId') imdbId: string) {
+    return this.reviewsService.remove(imdbId);
+  }
+
+  @Get('get/:imdbId')
+  findBy(@Param('imdbId') imdbId: string) {
+    return this.reviewsService.findBy(imdbId);
   }
 }

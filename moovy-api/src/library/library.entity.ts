@@ -1,13 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class LibEntity {
-  @PrimaryGeneratedColumn({
-    type: 'bigint',
-    name: 'movieId',
-  })
-  id: number;
-
   @Column({
     nullable: false,
     default: '',
@@ -26,7 +20,7 @@ export class LibEntity {
   })
   movieYear: string;
 
-  @Column({
+  @PrimaryColumn({
     nullable: false,
   })
   imdbId: string;

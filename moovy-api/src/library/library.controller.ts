@@ -15,8 +15,8 @@ export class LibController {
     return this.libService.findAll();
   }
 
-  @Delete('del/:id')
-  remove(@Param('id') id: number) {
-    return this.libService.remove(id);
+  @Delete('del/:imdbId')
+  remove(@Param('imdbId') imdbId: string) {
+    return this.libService.remove(imdbId);
   }
 }

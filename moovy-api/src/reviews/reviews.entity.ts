@@ -1,19 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class ReviewsEntity {
-  @PrimaryGeneratedColumn({
-    type: 'bigint',
-    name: 'reviewId',
-  })
-  id: number;
-
   @Column({
     nullable: false,
   })
   review: string;
 
-  @Column({
+  @PrimaryColumn({
     nullable: false,
   })
   imdbId: string;

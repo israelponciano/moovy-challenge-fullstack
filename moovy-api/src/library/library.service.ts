@@ -18,7 +18,7 @@ export class LibService {
     return this.libRepository.find();
   }
 
-  remove(id: number) {
-    return this.libRepository.delete(id);
+  remove(imdbId: string) {
+    return this.libRepository.delete(imdbId);
   }
 }

@@ -14,10 +14,6 @@ export class ReviewsService {
     return this.reviewsRepository.save(newReviewsDTO);
   }
 
-  findAll() {
-    return this.reviewsRepository.find();
-  }
-
   remove(imdbId: string) {
     return this.reviewsRepository.delete(imdbId);
   }

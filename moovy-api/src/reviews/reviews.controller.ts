@@ -10,11 +10,6 @@ export class ReviewsController {
     return this.reviewsService.create(newReviewsDTO);
   }
 
-  @Get('get')
-  findAll() {
-    return this.reviewsService.findAll();
-  }
-
   @Delete('del/:imdbId')
   remove(@Param('imdbId') imdbId: string) {
     return this.reviewsService.remove(imdbId);

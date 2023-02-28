@@ -50,7 +50,7 @@ export default function AudioRecorder(props: { imdbId: string}) {
     mediaRecorder.start()
     setTimeout(() => {
       mediaRecorder.stop()
-    }, 3000);
+    }, 60000);
   }
 
   const stopRecorder = () => {

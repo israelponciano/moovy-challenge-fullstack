@@ -6,9 +6,10 @@ import { ApiMovie } from "../interfaces/Interfaces";
 import AudioRecorder from "../recorder/AudioRecorder";
 
 export default function Library() {
-  const { movies, getAllMovies, deleteFavMovie } =  useMoovy();
+  const { movies, getAllMovies, deleteFavMovie, deleteFavReview } =  useMoovy();
 
   const removeFavorites = useCallback(async (imdbId: string) => {
+    await deleteFavReview(imdbId);
     await deleteFavMovie(imdbId);
     await getAllMovies();
   } ,[deleteFavMovie, getAllMovies])
@@ -20,11 +21,14 @@ export default function Library() {
   return (
     <div>
       <Header />
-      <p> Minha Biblioteca </p>
-
+      <p className='font-bold italic text-xl text-primary mx-10'> Minha Biblioteca </p>
+      <div className='grid grid-cols-5 gap-7 m-7'>
       {
         movies?.length ? movies.map((movie: ApiMovie) => (
-          <div key={ `${movie.imdbId}` }>
+          <div
+            key={ `${movie.imdbId}` }
+            className='flex flex-col justify-between rounded-xl bg-secondaryDark'
+          >
             <MovieCard 
               Title={ movie.movieName }
               imdbID={ movie.imdbId }
@@ -32,25 +36,23 @@ export default function Library() {
               Year={ movie.movieYear }
             />
             <div> 
-              <button
-                onClick={ () => removeFavorites(movie.imdbId) }
-                >
-                Remover
-              </button>
-              <>
-                <AudioRecorder
-                  imdbId={ movie.imdbId } 
+              <AudioRecorder
+                imdbId={ movie.imdbId } 
                 />
-                
-              </>
+              
             </div>
-          </div>
-        ))
-        : (
+            <button
+              className='px-3 py-2 text-sm font-medium border-2 border-primary text-secondaryLight bg-secondaryDark rounded-lg hover:bg-primary hover:text-secondaryDark'
+              onClick={ () => removeFavorites(movie.imdbId) }
+              >
+              Remover
+            </button>
+        </div>
+        )) : (
           <p>Nenhum filme Favorito por enquanto.</p>
-        )
-      }
-
+          )
+        }
+      </div>
     </div>
   )
 }

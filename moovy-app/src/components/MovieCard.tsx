@@ -5,13 +5,17 @@ export default function MovieCard(props: Movie ) {
   const { Title, imdbID, Poster, Year } = props;
   return (
     <>
-      <p>{ Title }</p>
-      <p>{ Year }</p>
-      <img
-        style={{ height: '100px' }}
-        src={ Poster === 'N/A' ? noPoster : Poster }
-        alt={ `${Title}-${imdbID}` }
-      />
+      <div className='mx-4 mt-4 translate-y-0'>
+        <img
+          className='img'
+          src={ Poster === 'N/A' ? noPoster : Poster }
+          alt={ `${Title}-${imdbID}` }
+        />
+      </div>
+      <div className='flex flex-col'>
+        <span className='mx-4 p-2 font-medium text-secondaryLight'>{ Title }</span>
+        <span className='mx-4 p-2 font-medium text-secondaryLight'>{ Year }</span>
+      </div>
     </>
   )
 }

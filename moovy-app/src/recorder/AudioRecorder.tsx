@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
 import { useMoovy } from "../api/hooks/UseMoovy";
 import { ApiReview } from "../interfaces/Interfaces";
+import mic from '../images/mic.svg'
+import pause from '../images/pause.svg'
+import save from '../images/save.svg'
+import remove from '../images/delete.svg'
+import play from '../images/play.svg'
 
 export default function AudioRecorder(props: { imdbId: string}) {
   const { imdbId } = props;
@@ -11,6 +16,7 @@ export default function AudioRecorder(props: { imdbId: string}) {
   const [reviewRender, setReviewRender] = useState<ApiReview>(); 
 
   const [modal, setModal] = useState<boolean>(false);
+  const [recording, setRecording] = useState<boolean>(false)
 
   const getMic = async () => {
     try {
@@ -28,6 +34,7 @@ export default function AudioRecorder(props: { imdbId: string}) {
       chunks.push(data.data);
     };
     mediaRecorder.onstop = async () => {
+      setRecording(false);
       const blob = new Blob(chunks, {type: 'audio/ogg; code=opus'});
       const reader = new window.FileReader();
       reader.readAsDataURL(blob);
@@ -38,6 +45,7 @@ export default function AudioRecorder(props: { imdbId: string}) {
   }
 
   const startRecorder = () => {
+    setRecording(true);
     getAudio();
     mediaRecorder.start()
     setTimeout(() => {
@@ -68,55 +76,58 @@ export default function AudioRecorder(props: { imdbId: string}) {
   useEffect(() => {
     getAudioFromBackEnd();
   }, [getAudioFromBackEnd, review])
-
-  console.log(reviewRender)  
   
   return (
     <div>
       <button
         onClick={ getMic }
       >
-        Config
+        <img className='w-10' src={ mic } alt="mic" />
       </button>
+      { recording && <span className='text-primary text-lg font-bold py-2 px-4'>...</span> }
+
+<div className='flex flex-row'>
+
       {
         modal && (
-          reviewRender?.review || review ? (
+          review || reviewRender?.review ? (
             <>
             <audio src={ reviewRender?.review || review  } controls={ true } />
-              
-              {
-                !reviewRender?.review &&
-                <button
-                  onClick={() => saveReview()}
-                >
-                  save
-                </button>
-              }
+            
+              <button
+                className='border-2 border-primary bg-secondaryDark hover:bg-secondary py-2 px-4 rounded-l'
+                onClick={() => saveReview()}
+              >
+                <img className='w-10' src={ save } alt="mic" />
+              </button>
 
               <button
+              className='border-2 border-primary bg-secondaryDark hover:bg-secondary py-2 px-4 rounded-r'
               onClick={() => deleteReview(imdbId)}
               >
-                delete
+                <img className='w-10' src={ remove } alt="mic" />
               </button>
             </>
           ) : (
             <>  
               <button
+                className='border-2 border-primary bg-secondaryDark hover:bg-secondary py-2 px-4 rounded-l'
                 onClick={ startRecorder }
-              >
-                Record
+                >
+                <img className='w-10' src={ play } alt="mic" />
               </button>
 
               <button
+                className='border-2 border-primary bg-secondaryDark hover:bg-secondary py-2 px-4 rounded-r'
                 onClick={ stopRecorder }
               >
-                Stop
+                <img className='w-10' src={ pause } alt="mic" />
               </button>
-
             </>
           )
-        )
-      }
+          )
+        }
+        </div>
     </div>
   )
 }

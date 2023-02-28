@@ -1,16 +1,25 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useMoovy } from "../api/hooks/UseMoovy";
+import { ApiReview } from "../interfaces/Interfaces";
 
-export default function AudioRecorder() {
+export default function AudioRecorder(props: { imdbId: string}) {
+  const { imdbId } = props;
+  const { postNewReview, deleteFavReview, getReview } =  useMoovy();
+
   const [mediaRecorder, setMediaRecorder] = useState<any>();
-  const [audioString, setAudioString ] = useState<any>();
+  const [review, setReview] = useState<any>('');
+  const [reviewRender, setReviewRender] = useState<ApiReview>(); 
+
+  const [modal, setModal] = useState<boolean>(false);
 
   const getMic = async () => {
     try {
       const stream = (await navigator.mediaDevices.getUserMedia({ audio: true }));
       setMediaRecorder(new MediaRecorder(stream));
     } catch (error) {
-      alert(`Você deve permitir o audio. ${error}`); 
+      alert(`Você deve permitir o audio. ${error}`);
     }
+    setModal(!modal)
   }
 
   const getAudio = () => {
@@ -23,13 +32,13 @@ export default function AudioRecorder() {
       const reader = new window.FileReader();
       reader.readAsDataURL(blob);
       reader.onloadend = () => {
-        setAudioString(reader.result);
+        setReview(reader.result);
       }
     }
   }
 
   const startRecorder = () => {
-    getAudio()
+    getAudio();
     mediaRecorder.start()
     setTimeout(() => {
       mediaRecorder.stop()
@@ -37,37 +46,77 @@ export default function AudioRecorder() {
   }
 
   const stopRecorder = () => {
-    getAudio()
     mediaRecorder.stop();
   }
+
+  const deleteReview = async (imdbId: string) => {
+    deleteFavReview(imdbId);
+    setReview('');
+    setReviewRender({ review, imdbId });
+
+  };
+
+  const saveReview = async () => {
+    postNewReview({ review, imdbId });
+    setReview('')
+  };
+
+  const getAudioFromBackEnd = useCallback(async () => {
+    setReviewRender(await getReview(imdbId));
+  }, [getReview, imdbId]);
+
+  useEffect(() => {
+    getAudioFromBackEnd();
+  }, [getAudioFromBackEnd, review])
+
+  console.log(reviewRender)  
   
   return (
     <div>
-      AudioRecorder
       <button
         onClick={ getMic }
       >
-        Mic
+        Config
       </button>
-      <button
-        onClick={ startRecorder }
-      >
-        Record
-      </button>
+      {
+        modal && (
+          reviewRender?.review || review ? (
+            <>
+            <audio src={ reviewRender?.review || review  } controls={ true } />
+              
+              {
+                !reviewRender?.review &&
+                <button
+                  onClick={() => saveReview()}
+                >
+                  save
+                </button>
+              }
 
-      <button
-        onClick={ stopRecorder }
-      >
-        Stop
-      </button>
+              <button
+              onClick={() => deleteReview(imdbId)}
+              >
+                delete
+              </button>
+            </>
+          ) : (
+            <>  
+              <button
+                onClick={ startRecorder }
+              >
+                Record
+              </button>
 
-      <button
-        onClick={ () => setAudioString('') }
-      >
-        Delete
-      </button>
+              <button
+                onClick={ stopRecorder }
+              >
+                Stop
+              </button>
 
-      <audio src={ audioString } controls={true}></audio>
+            </>
+          )
+        )
+      }
     </div>
   )
 }

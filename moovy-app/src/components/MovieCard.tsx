@@ -10,7 +10,7 @@ export default function MovieCard(props: Movie ) {
       <img
         style={{ height: '100px' }}
         src={ Poster === 'N/A' ? noPoster : Poster }
-        alt={ Title }
+        alt={ `${Title}-${imdbID}` }
       />
     </>
   )

@@ -5,7 +5,6 @@ import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 import { MoovyContext } from "../context/MoovyContext";
 import { Movie } from "../interfaces/Interfaces";
-import AudioRecorder from "../recorder/AudioRecorder";
 
 export default function Search() {
   const { movies } = useContext(MoovyContext);
@@ -30,16 +29,16 @@ export default function Search() {
       <SearchBar />
 
       {
-        movies ? movies.map((e: Movie) => (
-          <div key={ `${e.imdbID}` }>
+        movies ? movies.map((movie: Movie) => (
+          <div key={ `${movie.imdbID}` }>
             <MovieCard 
-              Title={ e.Title }
-              imdbID={ e.imdbID }
-              Poster={ e.Poster }
-              Year={ e.Year }
+              Title={ movie.Title }
+              imdbID={ movie.imdbID }
+              Poster={ movie.Poster }
+              Year={ movie.Year }
             />
             <button
-              onClick={ () => saveFavorites(e) }
+              onClick={ () => saveFavorites(movie) }
             >
               Adicionar
             </button>
@@ -49,9 +48,7 @@ export default function Search() {
           <p>Não achamos o filmes que você procura.</p>
         )
       }
-
-      <AudioRecorder />
-
+      
     </div>
   )
 }

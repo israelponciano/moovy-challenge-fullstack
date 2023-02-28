@@ -12,11 +12,10 @@ export interface ApiMovie {
   imdbId: string;
 }
 
-export interface ApiMovieDelete {
-  id: string;
-  movieName: string;
-  moviePoster: string;
-  movieYear: string;
+
+export interface ApiReview {
   imdbId: string;
+  review: string;
 }
+
 

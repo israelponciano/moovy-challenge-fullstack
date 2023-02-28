@@ -2,13 +2,14 @@ import { useCallback, useEffect } from "react";
 import { useMoovy } from "../api/hooks/UseMoovy";
 import Header from "../components/Header";
 import MovieCard from "../components/MovieCard";
-import { ApiMovieDelete } from "../interfaces/Interfaces";
+import { ApiMovie } from "../interfaces/Interfaces";
+import AudioRecorder from "../recorder/AudioRecorder";
 
 export default function Library() {
   const { movies, getAllMovies, deleteFavMovie } =  useMoovy();
 
-  const removeFavorites = useCallback(async (id: string) => {
-    await deleteFavMovie(id);
+  const removeFavorites = useCallback(async (imdbId: string) => {
+    await deleteFavMovie(imdbId);
     await getAllMovies();
   } ,[deleteFavMovie, getAllMovies])
 
@@ -22,19 +23,27 @@ export default function Library() {
       <p> Minha Biblioteca </p>
 
       {
-        movies?.length ? movies.map((e: ApiMovieDelete) => (
-          <div key={ `${e.imdbId}` }>
+        movies?.length ? movies.map((movie: ApiMovie) => (
+          <div key={ `${movie.imdbId}` }>
             <MovieCard 
-              Title={ e.movieName }
-              imdbID={ e.imdbId }
-              Poster={ e.moviePoster }
-              Year={ e.movieYear }
+              Title={ movie.movieName }
+              imdbID={ movie.imdbId }
+              Poster={ movie.moviePoster }
+              Year={ movie.movieYear }
             />
-             <button
-              onClick={ () => removeFavorites(e.id) }
-            >
-              Remover
-            </button>
+            <div> 
+              <button
+                onClick={ () => removeFavorites(movie.imdbId) }
+                >
+                Remover
+              </button>
+              <>
+                <AudioRecorder
+                  imdbId={ movie.imdbId } 
+                />
+                
+              </>
+            </div>
           </div>
         ))
         : (

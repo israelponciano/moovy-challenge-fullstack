@@ -5,10 +5,10 @@ Após executar o clone do projeto, entre na pasta da aplicação e execute o com
   - Página inicial se encontra na URL Http://localhost:3000
   
 Ferramentas utilizadas:
-  -NestJS
-  -TypeORM
-  -TypeScript
-  -ReacJs
-  -Axios
-  -ContextAPI
-  -TailWind CSS
+  NestJS
+  - TypeORM
+  - TypeScript
+  - ReacJs
+  - Axios
+  - ContextAPI
+  - TailWind CSS

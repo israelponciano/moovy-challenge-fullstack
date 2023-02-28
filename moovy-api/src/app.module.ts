@@ -9,7 +9,7 @@ import { ReviewsModule } from './reviews/reviews.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: process.env.DB_HOST ?? 'localhost',
       port: 5432,
       database: 'postgres',
       username: 'postgres',

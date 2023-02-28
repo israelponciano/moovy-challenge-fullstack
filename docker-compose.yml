@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  frontend:
+    build: "./moovy-app"
+    restart: always
+    ports:
+      - "3000:3000"
+    platform: linux/x86_64
+    working_dir: /app-frontend
+    depends_on:
+      - backends
+      - db
+    networks:
+      - rede-virtual-1
+  backends:
+    build: "./moovy-api"
+    restart: always
+    depends_on:
+     - db
+    ports: 
+     - "3001:3001"
+    environment:
+      - DB_HOST=db
+    networks:
+      - rede-virtual-1
+  db:
+    image: postgres:10.16
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: moovyreview
+      POSTGRES_DB: postgres
+    ports: 
+      - "5432:5432"
+    volumes: 
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - rede-virtual-1  
+volumes: 
+  db-data:
+networks:
+  rede-virtual-1:
